@@ -33,9 +33,37 @@ public class BallDemo
      * 
      * @param numOfBalls number of balls to simulate bouncing, clamped between 5-50. 
      */
-    public void boxBounce()
+    public void boxBounce(int numofBalls)
     {
         // you must implement this
+        if(numofBalls < 5) numofBalls = 5;
+        if(numofBalls > 50) numofBalls = 50;
+        
+        myCanvas.setVisible(true);
+        
+        //Array of balls
+        BoxBall[] balls = new BoxBall[numofBalls];
+        
+        //Balls created at random position and color
+        for(int i = 0; i < balls.length; i++) {
+            int x = (int)(Math.random() * (box.getRightWall() - box.getLeftWall() - 20)) 
+            + box.getTopWall();
+            int y = (int)(Math.random() * (box.getBottomWall() - box.getTopWall() - 20))
+            + box.getTopWall();
+            Color randomColor = new Color( (int)(Math.random() * 200), (int)(Math.random() * 200), (int)(Math.random() * 200));
+            balls [i] = new BoxBall(x, y, 20, randomColor, box, myCanvas);
+            balls[i].draw();
+        }
+        //Makes balls bounce around the box
+        while (true) {
+            myCanvas.wait(20);           // small delay
+            
+            //Redraws the box every frame
+            box.draw();
+            for(BoxBall ball : balls) {
+                ball.move();
+            }
+        }
     }
     
     /**

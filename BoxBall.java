@@ -52,8 +52,20 @@ public class BoxBall
         yPosition = yPos;
         color = ballColor;
         diameter = ballDiameter;
-
         canvas = drawingCanvas;
+        
+        myBox = box;
+        //Ensures the ball moves at a random speed
+        xSpeed = (int)(Math.random() * 15) - 7;
+        ySpeed = (int)(Math.random() * 15) - 7;
+        
+        //Speed will never be zero
+        while(xSpeed == 0) {
+            xSpeed = (int) (Math.random() *  15) - 7;
+        }
+        while(ySpeed == 0) {
+            ySpeed = (int) (Math.random() *  15) - 7;
+        }
     }
 
     /**
@@ -82,11 +94,34 @@ public class BoxBall
         erase();
             
         // compute new position
-  
+        xPosition += xSpeed;
+        yPosition += ySpeed;
         // figure out if it has hit the left or right wall
         
+        //LEFT Wall
+        if(xPosition <= myBox.getLeftWall()) {
+            xPosition = myBox.getLeftWall();
+            xSpeed = -xSpeed;
+        }
+        
+        //RIGHT wall
+        if (xPosition >= myBox.getRightWall() - diameter) {
+            xPosition = myBox.getRightWall() - diameter;
+            xSpeed = -xSpeed;
+        }
         // figure out if it has hit the top or bottom wall
         
+        //TOP Wall
+        if(yPosition <= myBox.getTopWall()) {
+            yPosition = myBox.getTopWall();
+            ySpeed = -ySpeed;
+        }
+        
+        //BOTTOM Wall
+        if(yPosition >= myBox.getBottomWall() - diameter){
+            yPosition = myBox.getBottomWall() - diameter;
+            ySpeed = -ySpeed;
+        }
         draw();
     }    
 
